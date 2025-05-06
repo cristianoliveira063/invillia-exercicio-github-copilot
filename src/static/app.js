@@ -4,6 +4,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const signupForm = document.getElementById("signup-form");
   const messageDiv = document.getElementById("message");
 
+  // Function to create a participant list component
+  function createParticipantList(participants) {
+    const participantList = document.createElement("ul");
+    participantList.className = "participant-list";
+
+    participants.forEach(participant => {
+      const listItem = document.createElement("li");
+      listItem.className = "participant-item";
+      listItem.textContent = participant;
+      participantList.appendChild(listItem);
+    });
+
+    return participantList;
+  }
+
   // Function to fetch activities from API
   async function fetchActivities() {
     try {
@@ -26,10 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Schedule:</strong> ${details.schedule}</p>
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
           <p><strong>Participants:</strong></p>
-          <ul>
-            ${details.participants.map(participant => `<li>${participant}</li>`).join("")}
-          </ul>
         `;
+
+        // Use the new participant list component
+        const participantList = createParticipantList(details.participants);
+        activityCard.appendChild(participantList);
 
         activitiesList.appendChild(activityCard);
 
